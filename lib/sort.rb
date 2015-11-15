@@ -1,5 +1,3 @@
-require 'benchmark'
-
 class Array 
 
 	def sorted?
@@ -37,7 +35,7 @@ def bubblesort(array)
       		end
     	end
 
-    break if not swapped
+    	break if not swapped
 	end
 
 	return ary
@@ -45,12 +43,11 @@ end
 
 def gnomesort(array)
 	ary = array.dup
-	n = ary.length
-
-	(n - 1).times do |i|
-		(i..1).each do |j|
-			if ary[j] < ary[j-1]
-				ary[j], ary[j-1] = ary[j-1], ary[j]
+	
+	(ary.length).times do |index|
+		(index).times do |time|
+			if ary[index-time] < ary[index-time-1]
+				ary[index-time], ary[index-time-1] = ary[index-time-1], ary[index-time]
 			else
 				break
 			end
@@ -61,7 +58,7 @@ end
 
 def selectionsort(array)
 	ary = array.dup
-	n = array.length - 1
+	n = ary.length - 1
 
 	n.times do |i|
 		index_min = i
@@ -76,39 +73,19 @@ def selectionsort(array)
 	return ary
 end
 
-def insertionsort(ary)
+def insertionsort(array)
+	ary = array.dup
 	
+	1.upto(ary.length-1) do |index|
+		ins = index
+		1.upto(index) do |time|
+			if ary[index-time] > ary[index]
+				ins = index-time
+			else
+				break
+			end
+		end
+		ary.insert(ins, ary.delete_at(index))
+	end
+	return ary
 end
-
-length = 10
-random = []
-(length).times { random << rand(0..length*10) }
-fewunique = []
-(length).times { fewunique << rand(0..10) }
-almostsorted = []
-(length).times { almostsorted << rand(almostsorted.length..almostsorted.length+10) }
-descending = (0..length).to_a.reverse!
-
-Benchmark.bm(16) do |x|
-	puts "Random"
-	x.report("Bubblesort") { bubblesort(random) }
-	x.report("Gnomesort:") { gnomesort(random) }
-	x.report("Selectionsort:") { selectionsort(random) }
-
-	puts "\nFew unique"
-	x.report("Bubblesort:") { bubblesort(fewunique) }
-	x.report("Gnomesort:") { gnomesort(fewunique) }
-	x.report("Selectionsort:") { selectionsort(fewunique) }
-
-	puts "\nNearly Sorted"
-	x.report("Bubblesort:") { bubblesort(almostsorted) }
-	x.report("Gnomesort:") { gnomesort(almostsorted) }
-	x.report("Selectionsort:") { selectionsort(almostsorted) }
-
-	puts "\nDescending"
-	x.report("Bubblesort:") { bubblesort(descending) }
-	x.report("Gnomesort:") { gnomesort(descending) }
-	x.report("Selectionsort:") { selectionsort(descending) }
-end
-
-p gnomesort(random)
