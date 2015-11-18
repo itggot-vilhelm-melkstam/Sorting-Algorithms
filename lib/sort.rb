@@ -1,11 +1,9 @@
 class Array 
 
 	def sorted?
-		self.each_index do |index|
-			if self[index+1] != nil
-				if self[index] > self[index+1]
-					return false
-				end
+		(self.length-1).times do |index|
+			if self[index] > self[index+1]
+				return false
 			end
 		end
 		return true
@@ -15,7 +13,7 @@ end
 
 def bogosort(array)
 	ary = array.dup
-	while ary.sorted? == false
+	while not ary.sorted?
 		ary.shuffle!
 	end
 	return ary
@@ -134,5 +132,3 @@ def radixsortlsd(array)
 	ary.each_with_index { |value, index| ary[index] = value.inject{|n, d| n * 10 + d} }
 	return ary
 end
-
-p bubblesort([5, 6, 12, 84])
