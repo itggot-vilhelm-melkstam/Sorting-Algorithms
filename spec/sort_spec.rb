@@ -41,4 +41,18 @@ describe 'sort' do
 			insertionsort(array).must_equal array.sort
 		end
 	end
+
+	it "Shellsort doesn't sort properly" do
+		10.times do 
+			array = (1..100).to_a.shuffle
+			shellsort(array).must_equal array.sort
+		end
+	end
+
+	it "Radixsort doesn't sort properly" do
+		10.times do 
+			array = (1..100).to_a.shuffle
+			radixsortlsd(array).must_equal array.sort
+		end
+	end
 end

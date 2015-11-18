@@ -23,19 +23,20 @@ end
 
 def bubblesort(array)
 	ary = array.dup
-	n = ary.length
+	n = ary.length-1
+	swapped = true
 
-  	loop do
+  	while swapped do
     	swapped = false
 
-    	(n-1).times do |i|
+    	(n).times do |i|
     		if ary[i] > ary[i+1]
         		ary[i], ary[i+1] = ary[i+1], ary[i]
         		swapped = true
       		end
     	end
 
-    	break if not swapped
+    	n-=1
 	end
 
 	return ary
@@ -89,3 +90,49 @@ def insertionsort(array)
 	end
 	return ary
 end
+
+def shellsort(array)
+	ary = array.dup
+	k = ary.length/2
+
+	while k > 0
+		(ary.length-k).times do |index|
+			((ary.length/k)-1).times do |time|
+				if ary[index-time] > ary[(index+k)-time] && index-time >= 0
+					ary[index-time], ary[(index+k)-time] = ary[(index+k)-time], ary[index-time]
+				else
+					break
+				end
+			end
+		end
+		k = k/2
+	end
+
+	return ary
+end
+
+def radixsortlsd(array)
+	ary = array.dup
+	k = 0
+	
+	ary.each { |value| k = value.to_s.length if value.to_s.length > k }
+	ary.each_with_index {|value, index| ary[index] = value.to_s.rjust(k, "0").chars.map(&:to_i)}
+
+
+	k.times do |digit|
+		bucket = {0 => [], 1 => [], 2=> [], 3 => [], 4 => [], 5 => [], 6 => [], 7 => [], 8 => [], 9 => []}
+		ary.each_with_index do |value, index|
+			bucket[(value.reverse[digit])] << value
+		end
+		ary = []
+		bucket.each do |key, value|
+			value.each do |num|
+				ary << num
+			end
+		end	
+	end
+	ary.each_with_index { |value, index| ary[index] = value.inject{|n, d| n * 10 + d} }
+	return ary
+end
+
+p bubblesort([5, 6, 12, 84])
