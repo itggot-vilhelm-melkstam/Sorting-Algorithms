@@ -64,8 +64,7 @@ def selectionsort(array)
 
 		(i + 1).upto(n) do |j|
 		  index_min = j if ary[j] < ary[index_min]
-		end
-		  
+		end  
 		ary[i], ary[index_min] = ary[index_min], ary[i] if index_min != i
 	end
 
@@ -74,7 +73,7 @@ end
 
 def insertionsort(array)
 	ary = array.dup
-	
+
 	1.upto(ary.length-1) do |index|
 		ins = index
 		1.upto(index) do |time|
@@ -86,6 +85,7 @@ def insertionsort(array)
 		end
 		ary.insert(ins, ary.delete_at(index))
 	end
+
 	return ary
 end
 
@@ -112,8 +112,8 @@ end
 def radixsortlsd(array)
 	ary = array.dup
 	k = 0
-	
-	ary.each { |value| k = value.to_s.length if value.to_s.length > k }
+
+	ary.each { |value| k = value.to_s.length if Math.log10(value).to_i + 1 > k }
 	ary.each_with_index {|value, index| ary[index] = value.to_s.rjust(k, "0").chars.map(&:to_i)}
 
 
@@ -130,5 +130,6 @@ def radixsortlsd(array)
 		end	
 	end
 	ary.each_with_index { |value, index| ary[index] = value.inject{|n, d| n * 10 + d} }
+
 	return ary
 end
