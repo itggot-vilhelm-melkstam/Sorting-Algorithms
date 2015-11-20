@@ -1,5 +1,4 @@
 class Array 
-
 	def sorted?
 		(self.length-1).times do |index|
 			if self[index] > self[index+1]
@@ -8,7 +7,6 @@ class Array
 		end
 		return true
 	end
-
 end
 
 def bogosort(array)
@@ -113,7 +111,7 @@ def radixsortlsd(array)
 	ary = array.dup
 	k = 0
 
-	ary.each { |value| k = value.to_s.length if Math.log10(value).to_i + 1 > k }
+	ary.each { |value| k = value.to_s.length if value.to_s.length > k }
 	ary.each_with_index {|value, index| ary[index] = value.to_s.rjust(k, "0").chars.map(&:to_i)}
 
 
