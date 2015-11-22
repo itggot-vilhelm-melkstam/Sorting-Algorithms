@@ -9,6 +9,7 @@ class Array
 	end
 end
 
+[4, 6, 23, 63, 7, 234, 75, 234, 7543]
 def bogosort(array)
 	ary = array.dup
 	while not ary.sorted?
@@ -130,4 +131,19 @@ def radixsortlsd(array)
 	ary.each_with_index { |value, index| ary[index] = value.inject{|n, d| n * 10 + d} }
 
 	return ary
+end
+
+def quicksort(array)
+	ary = array.dup
+	return ary if ary.length <= 1
+	pivot = ary.delete_at(-1)
+
+	lower, upper = [], []
+
+	ary.each do |value|
+		lower << value if value <= pivot
+		upper << value if value > pivot
+	end
+
+	return quicksort(lower) + [pivot] + quicksort(upper)
 end
